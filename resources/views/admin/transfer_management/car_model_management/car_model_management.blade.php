@@ -25,12 +25,11 @@
                         <label for="car_images_file" class="form-label">แนบไฟล์ (รูปหรือเอกสารประกอบคำร้อง)</label>
                         <input type="file" class="form-control" id="car_images_file" name="car_images_file[]" multiple>
                         <small class="text-muted">ประเภทไฟล์ที่รองรับ: jpg, jpeg, png, pdf (ขนาดไม่เกิน 10MB)</small>
-                        <!-- แสดงรายการไฟล์ที่แนบ -->
+
                         <div id="file-list" class="mt-1">
                             <div class="d-flex flex-wrap gap-3"></div>
                         </div>
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Create</button>

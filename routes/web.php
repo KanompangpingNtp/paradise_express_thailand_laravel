@@ -23,6 +23,11 @@ Route::get('/', function () {
 
 //TourSectionManagement
 Route::get('/TourSectionManagement/page', [TourManagementController::class, 'TourSectionManagement'])->name('TourSectionManagement');
+Route::post('/TourSectionManagement/create', [TourManagementController::class, 'CreateNewTourSection'])->name('CreateNewTourSection');
+
+Route::get('/TourSectionManagement/TourlistSection/{id}', [TourManagementController::class, 'TourlistSection'])->name('TourlistSection');
+Route::post('/TourSectionManagement/TourlistSection/create/{id}', [TourManagementController::class, 'CreateNewTour'])->name('CreateNewTour');
+
 
 //RouteManagement
 Route::get('/ProvinceManagement/page', [RouteManagementController::class, 'ProvinceManagement'])->name('ProvinceManagement');
