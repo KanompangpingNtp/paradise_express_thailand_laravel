@@ -18,7 +18,7 @@ use App\Http\Controllers\RouteTotalDetailsController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layout.app');
 });
 
 //TourSectionManagement
