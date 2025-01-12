@@ -5,6 +5,7 @@ use App\Http\Controllers\TourManagementController;
 use App\Http\Controllers\RouteManagementController;
 use App\Http\Controllers\CarsManagementController;
 use App\Http\Controllers\RouteTotalDetailsController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,34 +22,41 @@ Route::get('/', function () {
     return view('layout.app');
 });
 
-//TourSectionManagement
-Route::get('/TourSectionManagement/page', [TourManagementController::class, 'TourSectionManagement'])->name('TourSectionManagement');
-Route::post('/TourSectionManagement/create', [TourManagementController::class, 'CreateNewTourSection'])->name('CreateNewTourSection');
+//auth
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-//TourlistSection
-Route::get('/TourSectionManagement/TourlistSection/{id}', [TourManagementController::class, 'TourlistSection'])->name('TourlistSection');
-Route::post('/TourSectionManagement/TourlistSection/create/{id}', [TourManagementController::class, 'CreateNewTour'])->name('CreateNewTour');
+Route::middleware(['check.loggedin'])->group(function () {
+    //TourSectionManagement
+    Route::get('/TourSectionManagement/page', [TourManagementController::class, 'TourSectionManagement'])->name('TourSectionManagement');
+    Route::post('/TourSectionManagement/create', [TourManagementController::class, 'CreateNewTourSection'])->name('CreateNewTourSection');
 
-//RouteManagement
-Route::get('/ProvinceManagement/page', [RouteManagementController::class, 'ProvinceManagement'])->name('ProvinceManagement');
-Route::post('/ProvinceManagement/create', [RouteManagementController::class, 'CreateNewProvince'])->name('CreateNewProvince');
+    //TourlistSection
+    Route::get('/TourSectionManagement/TourlistSection/{id}', [TourManagementController::class, 'TourlistSection'])->name('TourlistSection');
+    Route::post('/TourSectionManagement/TourlistSection/create/{id}', [TourManagementController::class, 'CreateNewTour'])->name('CreateNewTour');
 
-//RoutesMainManagement
-Route::get('/ProvinceManagement/RoutesMainManagement/Routes/{id}', [RouteManagementController::class, 'RoutesMainManagement'])->name('RoutesMainManagement');
-Route::post('/ProvinceManagement/RoutesMainManagement/Routes/create/{id}', [RouteManagementController::class, 'CreateNewRoutes'])->name('CreateNewRoutes');
+    //RouteManagement
+    Route::get('/ProvinceManagement/page', [RouteManagementController::class, 'ProvinceManagement'])->name('ProvinceManagement');
+    Route::post('/ProvinceManagement/create', [RouteManagementController::class, 'CreateNewProvince'])->name('CreateNewProvince');
 
-//RoutesDetails
-Route::get('/ProvinceManagement/RoutesMainManagement/Routes/RoutesDetails/{id}', [RouteManagementController::class, 'RoutesDetails'])->name('RoutesDetails');
-Route::post('/ProvinceManagement/RoutesMainManagement/Routes/RoutesDetails/create/{id}', [RouteManagementController::class, 'CreateNewRoutesDetails'])->name('CreateNewRoutesDetails');
+    //RoutesMainManagement
+    Route::get('/ProvinceManagement/RoutesMainManagement/Routes/{id}', [RouteManagementController::class, 'RoutesMainManagement'])->name('RoutesMainManagement');
+    Route::post('/ProvinceManagement/RoutesMainManagement/Routes/create/{id}', [RouteManagementController::class, 'CreateNewRoutes'])->name('CreateNewRoutes');
 
-//CarsManagement
-Route::get('/CarsManagement/page', [CarsManagementController::class, 'CarBrandsManagement'])->name('CarBrandsManagement');
-Route::post('/CarsManagement/create', [CarsManagementController::class, 'CreateNewCarBrands'])->name('CreateNewCarBrands');
+    //RoutesDetails
+    Route::get('/ProvinceManagement/RoutesMainManagement/Routes/RoutesDetails/{id}', [RouteManagementController::class, 'RoutesDetails'])->name('RoutesDetails');
+    Route::post('/ProvinceManagement/RoutesMainManagement/Routes/RoutesDetails/create/{id}', [RouteManagementController::class, 'CreateNewRoutesDetails'])->name('CreateNewRoutesDetails');
 
-//CarModelManagement
-Route::get('/CarsManagement/CarModelManagement/{id}', [CarsManagementController::class, 'CarModelManagement'])->name('CarModelManagement');
-Route::post('/CarsManagement/CarModelManagement/create/{id}', [CarsManagementController::class, 'CreateNewCarModel'])->name('CreateNewCarModel');
+    //CarsManagement
+    Route::get('/CarsManagement/page', [CarsManagementController::class, 'CarBrandsManagement'])->name('CarBrandsManagement');
+    Route::post('/CarsManagement/create', [CarsManagementController::class, 'CreateNewCarBrands'])->name('CreateNewCarBrands');
 
-//RouteTotalDetails
-Route::get('/RouteTotalDetails/page', [RouteTotalDetailsController::class, 'RouteTotalDetails'])->name('RouteTotalDetails');
-Route::post('/RouteTotalDetails/create', [RouteTotalDetailsController::class, 'CreateNewRouteTotalDetails'])->name('CreateNewRouteTotalDetails');
+    //CarModelManagement
+    Route::get('/CarsManagement/CarModelManagement/{id}', [CarsManagementController::class, 'CarModelManagement'])->name('CarModelManagement');
+    Route::post('/CarsManagement/CarModelManagement/create/{id}', [CarsManagementController::class, 'CreateNewCarModel'])->name('CreateNewCarModel');
+
+    //RouteTotalDetails
+    Route::get('/RouteTotalDetails/page', [RouteTotalDetailsController::class, 'RouteTotalDetails'])->name('RouteTotalDetails');
+    Route::post('/RouteTotalDetails/create', [RouteTotalDetailsController::class, 'CreateNewRouteTotalDetails'])->name('CreateNewRouteTotalDetails');
+});

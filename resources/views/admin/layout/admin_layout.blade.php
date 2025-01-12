@@ -299,7 +299,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                         <li>
-                            {{-- <form action="{{ route('logout') }}" method="POST" style="display: inline;"> --}}
+                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf
                                 <button class="dropdown-item fs-5" type="submit">Logout</button>
                             </form>
