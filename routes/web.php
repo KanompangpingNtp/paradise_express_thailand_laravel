@@ -19,7 +19,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('layout.app');
+    return view('pages.transfer-all.app');
 });
 
 //auth
