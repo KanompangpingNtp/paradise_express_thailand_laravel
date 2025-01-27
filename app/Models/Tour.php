@@ -16,21 +16,6 @@ class Tour extends Model
         return $this->belongsTo(TourSection::class);
     }
 
-    // public function tourImages()
-    // {
-    //     return $this->hasMany(TourImage::class);
-    // }
-
-    // public function tourHighlights()
-    // {
-    //     return $this->hasMany(TourHighlight::class);
-    // }
-
-    // public function tourPdfs()
-    // {
-    //     return $this->hasMany(TourPdf::class);
-    // }
-
     public function highlights()
     {
         return $this->hasMany(TourHighlight::class);

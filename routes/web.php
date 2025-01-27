@@ -6,6 +6,7 @@ use App\Http\Controllers\RouteManagementController;
 use App\Http\Controllers\CarsManagementController;
 use App\Http\Controllers\RouteTotalDetailsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,13 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.transfer-all.app');
-});
+// Route::get('/', function () {
+//     return view('pages.home.app');
+// });
+
+Route::get('/', [HomeController::class, 'HomeIndex'])->name('HomeIndex');
+Route::get('/tour-details/{id}', [HomeController::class, 'TourDetails'])->name('TourDetails');
+Route::get('/TourShowAll', [HomeController::class, 'TourShowAll'])->name('TourShowAll');
 
 //auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('showLoginForm');

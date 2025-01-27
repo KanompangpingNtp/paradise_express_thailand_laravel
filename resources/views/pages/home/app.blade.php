@@ -30,9 +30,8 @@
     <div class="section-5">
         @include('pages.home.sections.section-5')
     </div>
-    
+
     @include('pages.home.sections.section-6')
     @include('pages.home.sections.section-7')
-
 
 @endsection
