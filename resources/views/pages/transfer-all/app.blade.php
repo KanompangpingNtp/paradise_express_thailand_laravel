@@ -127,35 +127,42 @@
                     </div>
                 </form>
             </div>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
-                @for ($i = 1; $i <= 8; $i++)
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 col-md-12">
                 <div class="col">
-                    <a href="#" class="text-decoration-none text-dark">
-                        <div class="card ">
-                            <img src="{{ asset("images/card{$i}.jpg") }}" class="card-img-top" alt="Card {{ $i }}">
+                    <a href="{{route('ListCarDetail',$routeTotal->id)}}" class="text-decoration-none text-dark">
+                        <div class="card">
+                            {{-- แสดงภาพแรกของรถ --}}
+                            @if($routeTotal->carModel->carImages->isNotEmpty())
+                                <img src="{{ asset('storage/' . $routeTotal->carModel->carImages->first()->car_images_file) }}" class="card-img-top" alt="Car Image">
+                            @else
+                                <img src="{{ asset('images/default-car.jpg') }}" class="card-img-top" alt="Default Car Image">
+                            @endif
+
                             <div class="card-body">
-                                <div class="card-title " style="font-size: 18px;">Card Title {{ $i }}</div>
-                                <div class="card-text text-muted" style="font-size: 16px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus ipsam consequatur suscipit optio inventore? {{ $i }}.</div>
-                                <div class="highlight-section mt-3">
-                                    HIGHLIGHT
+                                <div class="card-title" style="font-size: 18px;">
+                                    <strong>{{ $routeTotal->carModel->carBrand->car_brand_name ?? 'No Brand' }} {{ $routeTotal->carModel->car_model_name ?? 'No Model' }}</strong>
                                 </div>
-                                <div class="highlight-items mt-2">
-                                    <div class="d-flex justify-content-between">
-                                        <span><i class="fa-regular fa-circle-check me-1"></i>Item1</span>
-                                        <span><i class="fa-regular fa-circle-check me-1"></i>Item2</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span><i class="fa-regular fa-circle-check me-1"></i>Item3</span>
-                                        <span><i class="fa-regular fa-circle-check me-1"></i>Item4</span>
-                                    </div>
+
+                                <div class="text-muted" style="font-size: 15px;">
+                                    {{ $routeTotal->routeDetail->route->province->province_name ?? '-' }}
+                                    {{ $routeTotal->routeDetail->route->route_name ?? '-' }}
+                                    {{ $routeTotal->routeDetail->route_detail_name ?? '-' }}
                                 </div>
+
+                                <div class="mt-3">
+                                    <strong>Price : {{$routeTotal->data_price}}</strong>
+                                </div>
+
+                                <div class="highlight-section mt-3 text-end">
+                                    View More
+                                </div>
+
                             </div>
                         </div>
                     </a>
-                    
                 </div>
-                @endfor
             </div>
+
         </div>
         <div class="bg-page7 d-flex w-100 py-4 ">
             <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-center w-100 gap-3">

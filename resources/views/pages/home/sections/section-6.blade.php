@@ -26,9 +26,9 @@
                 <div class="text-muted">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus velit veritatis culpa ducimus quod asperiores accusamus neque quae, consequatur voluptatum?
                 </div>
-                <div class="btn-view-all my-3 shadow-lg">
+                <a href="{{ route('TransferPage') }}" class="btn-view-all my-3 shadow-lg" style="text-decoration: none;">
                     BOOK NOW
-                </div>
+                </a>
             </div>
             <div class="col-12 col-lg-6">
                 <img src="{{asset('images/car/car3.png')}}" alt="car" class="img-car">

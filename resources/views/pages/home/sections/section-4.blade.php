@@ -91,7 +91,7 @@
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
             @foreach ($toursections_month as $tour)
             <div class="col">
-                <a href="{{ route('TourDetails', $tour->id) }}" class="text-decoration-none text-dark">
+                <a href="{{ route('TourMonthDetails', $tour->id) }}" class="text-decoration-none text-dark">
                     <div class="card">
                         <img src="{{ $tour->images->isNotEmpty()
                                 ? asset('storage/' . $tour->images->first()->tour_image_files)
@@ -132,42 +132,57 @@
             @endforeach
         </div>
 
-
         <div class="my-3 btn-view-all my-3">
-            <a href="{{ route('TourShowAll') }}" class="text-decoration-none" style="color: #000">VIEW ALL TOURS MONTH</a>
+            <a href="{{ route('TourMonthShowAll') }}" class="text-decoration-none" style="color: #000">VIEW ALL TOURS MONTH</a>
         </div>
         <div class="text-center py-5 fs-2 fw-bold">
             TOUR OF THE SIGHTSEEING
         </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
-            @for ($i = 1; $i <= 8; $i++) <div class="col">
-                <a href="#" class="text-decoration-none text-dark">
-                    <div class="card ">
-                        <img src="{{ asset("images/card{$i}.jpg") }}" class="card-img-top" alt="Card {{ $i }}">
+            @foreach ($toursections_sightseeing as $tour)
+            <div class="col">
+                <a href="{{ route('TourSightSeeingDetails', $tour->id) }}" class="text-decoration-none text-dark">
+                    <div class="card">
+                        <img src="{{ $tour->images->isNotEmpty()
+                                ? asset('storage/' . $tour->images->first()->tour_image_files)
+                                : asset('images/default.jpg') }}" class="card-img-top" alt="{{ $tour->tour_name ?? 'Tour Image' }}">
+
                         <div class="card-body">
-                            <div class="card-title " style="font-size: 18px;">Card Title {{ $i }}</div>
-                            <div class="card-text text-muted" style="font-size: 16px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus ipsam consequatur suscipit optio inventore? {{ $i }}.</div>
-                            <div class="highlight-section mt-3">
-                                HIGHLIGHT
+                            <div class="card-title" style="font-size: 18px;">
+                                {{ $tour->tour_name ?? 'Card Title' }}
                             </div>
+
+                            <div class="card-text text-muted" style="font-size: 16px;">
+                                {{ $tour->tour_detail ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit.' }}
+                            </div>
+
+                            <div class="highlight-section mt-3">HIGHLIGHT</div>
                             <div class="highlight-items mt-2">
+                                @if ($tour->highlights->isNotEmpty())
+                                @foreach ($tour->highlights->chunk(2) as $chunk)
                                 <div class="d-flex justify-content-between">
-                                    <span><i class="fa-regular fa-circle-check me-1"></i><span class="item-text">Item1 with long text xxxx</span></span>
-                                    <span><i class="fa-regular fa-circle-check me-1"></i><span class="item-text">Item2 with some longer text</span></span>
+                                    @foreach ($chunk as $highlight)
+                                    <span><i class="fa-regular fa-circle-check me-1"></i>{{ $highlight->tour_highlight_detail }}</span>
+                                    @endforeach
+                                    @if ($chunk->count() < 2) <span></span>
+                                        @endif
                                 </div>
+                                @endforeach
+                                @else
                                 <div class="d-flex justify-content-between">
-                                    <span><i class="fa-regular fa-circle-check me-1"></i><span class="item-text">Item3</span></span>
-                                    <span><i class="fa-regular fa-circle-check me-1"></i><span class="item-text">Item4 with even more text here</span></span>
+                                    <span><i class="fa-regular fa-circle-check me-1"></i>No Highlights</span>
                                 </div>
+                                @endif
                             </div>
+
                         </div>
                     </div>
                 </a>
             </div>
-        @endfor
+            @endforeach
     </div>
     <div class="btn-view-all my-3">
-        VIEW ALL SIGHTSEEING
+        <a href="{{ route('TourSightSeeingShowAll') }}" class="text-decoration-none" style="color: #000">VIEW ALL SIGHTSEEING</a>
     </div>
     </div>
 

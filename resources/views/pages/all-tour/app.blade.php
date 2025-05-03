@@ -114,7 +114,7 @@
         <div class="container d-flex justify-content-center align-items-center">
             <div class="d-flex flex-column justify-content-center align-items-center text-uppercase">
                 <div class="fw-bold fs-2" style="letter-spacing: 5px;">
-                    Tour all month
+                    Tour Packages
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
             </form>
         </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 col-md-12">
-            @foreach ($toursections as $tour)
+            {{-- @foreach ($toursections as $tour)
             <div class="col">
                 <a href="{{ route('TourMonthDetails', $tour->id) }}" class="text-decoration-none text-dark">
                     <div class="card h-100">
@@ -173,7 +173,7 @@
                     </div>
                 </a>
             </div>
-            @endforeach
+            @endforeach --}}
         </div>
 
     </div>

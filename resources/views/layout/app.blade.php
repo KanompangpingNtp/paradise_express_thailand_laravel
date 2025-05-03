@@ -37,6 +37,12 @@
             background-color: rgba(0, 0, 0, 0.7);
             /* สีดำโปร่งแสง 70% */
         }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: rgb(251 146 60 / var(--tw-text-opacity, 1));
+        }
+
     </style>
 </head>
 
@@ -45,32 +51,30 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar">
         <div class="container">
             <!-- Logo -->
-            <a class="navbar-brand" href="#"><img src="{{ asset('images/logo_edited.avif') }}" alt="logo"
-                    width="50"></a>
+            <a class="navbar-brand" href="{{route('HomeIndex')}}"><img src="{{ asset('images/logo_edited.avif') }}" alt="logo" width="50"></a>
 
             <!-- Navbar Links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Tour Packages</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sightseeing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Transfer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Customized</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'TourAll' ? 'active' : '' }}" href="{{route('TourAll')}}">Tour Packages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sightseeing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'TransferPage' ? 'active' : '' }}" href="{{ route('TransferPage') }}">Transfer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'CustomizePage' ? 'active' : '' }}" href="{{ route('CustomizePage') }}">Customized</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'ContactPage' ? 'active' : '' }}" href="{{ route('ContactPage') }}">Contact</a>
+                </li>
+            </ul>
+
 
             <!-- Login Button -->
-            <a href="#" class="btn btn-outline-dark"><i class="fa-solid fa-user me-1"></i>Login</a>
+            <a href="{{route('showLoginForm')}}" class="btn btn-outline-dark"><i class="fa-solid fa-user me-1"></i>Login</a>
         </div>
     </nav>
 
@@ -94,6 +98,7 @@
             }
             prevScrollpos = currentScrollPos;
         }
+
     </script>
 </body>
 

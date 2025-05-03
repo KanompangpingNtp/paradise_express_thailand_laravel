@@ -7,6 +7,10 @@ use App\Http\Controllers\CarsManagementController;
 use App\Http\Controllers\RouteTotalDetailsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\contact\ContactController;
+use App\Http\Controllers\customize\CustomizeController;
+use App\Http\Controllers\transfer\TransferController;
+use App\Http\Controllers\tour\TourController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +28,22 @@ use App\Http\Controllers\HomeController;
 // });
 
 Route::get('/', [HomeController::class, 'HomeIndex'])->name('HomeIndex');
-Route::get('/tour-details/{id}', [HomeController::class, 'TourDetails'])->name('TourDetails');
-Route::get('/TourShowAll', [HomeController::class, 'TourShowAll'])->name('TourShowAll');
+Route::get('/tour-month/showall', [HomeController::class, 'TourMonthShowAll'])->name('TourMonthShowAll');
+Route::get('/tour-month/detail/{id}', [HomeController::class, 'TourMonthDetails'])->name('TourMonthDetails');
+Route::get('/tour-sightseeing/detail/{id}', [HomeController::class, 'TourSightSeeingDetails'])->name('TourSightSeeingDetails');
+Route::get('/tour-sightseeing/showall', [HomeController::class, 'TourSightSeeingShowAll'])->name('TourSightSeeingShowAll');
+Route::get('/tour-asia/detail/{id}', [HomeController::class, 'TourASIADetails'])->name('TourASIADetails');
+Route::get('/tour-asia/showall', [HomeController::class, 'TourASIAShowAll'])->name('TourASIAShowAll');
+
+Route::get('/contact', [ContactController::class, 'ContactPage'])->name('ContactPage');
+
+Route::get('/customize', [CustomizeController::class, 'CustomizePage'])->name('CustomizePage');
+
+Route::get('/transfer', [TransferController::class, 'TransferPage'])->name('TransferPage');
+Route::get('/transfer/list-car', [TransferController::class, 'ListCar'])->name('ListCar');
+Route::get('/transfer/list-car/details/{id}', [TransferController::class, 'ListCarDetail'])->name('ListCarDetail');
+
+Route::get('/tour-all', [TourController::class, 'TourAll'])->name('TourAll');
 
 //auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('showLoginForm');

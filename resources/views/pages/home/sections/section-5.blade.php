@@ -96,41 +96,85 @@
         </div>
         <div class="container d-flex align-items-center justify-content-center gap-4 flex-grow-1">
             <div class="d-flex flex-column align-items-center justify-content-center my-4">
+                @php
+                $chunks = $toursections_asia->chunk(5); // แบ่งข้อมูลเป็นกลุ่มละ 3 ชิ้น (1 สไลด์มี 3 การ์ด)
+                @endphp
+
                 <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel">
                     <!-- Indicators -->
                     <div class="carousel-indicators">
-                        @for ($i = 0; $i < 3; $i++) <!-- จำนวนหน้าสไลด์ที่ต้องการ -->
-                        <button type="button" data-bs-target="#cardCarousel" data-bs-slide-to="{{ $i }}" class="{{ $i === 0 ? 'active' : '' }}" aria-current="{{ $i === 0 ? 'true' : 'false' }}" aria-label="Slide {{ $i + 1 }}"></button>
-                        @endfor
+                        @forelse ($chunks as $index => $group)
+                        <button type="button" data-bs-target="#cardCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-current="{{ $index === 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
+                        @empty
+                        <button type="button" class="disabled" aria-disabled="true">No slides available</button>
+                        @endforelse
                     </div>
-        
+
                     <!-- Carousel Items -->
                     <div class="carousel-inner py-3">
-                        @for ($i = 0; $i < 3; $i++) <!-- จำนวนหน้าสไลด์ที่ต้องการ -->
-                        <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
+                        @forelse ($chunks as $index => $group)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                             <div class="row">
-                                @for ($j = 1; $j <= 3; $j++) <!-- จำนวนการ์ดที่ต้องการแสดงในแต่ละสไลด์ -->
+                                @foreach ($group as $tour)
                                 <div class="col-4" id="card-carousel">
-                                    <a href="#" class="text-decoration-none text-dark"> 
+                                    <a href="{{ route('TourASIADetails', $tour->id) }}" class="text-decoration-none text-dark">
                                         <div class="card">
                                             <div class="img-container w-100">
-                                                <img src="default-image.jpg" class="card-img-top" alt="Default Image">
+                                                <img src="{{ $tour->images->isNotEmpty()
+                                                    ? asset('storage/' . $tour->images->first()->tour_image_files)
+                                                    : asset('images/default.jpg') }}" class="card-img-top" alt="{{ $tour->tour_name ?? 'Tour Image' }}">
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title" style="font-size: 18px;">Title {{ $i * 3 + $j }}</h5>
+                                                <h5 class="card-title" style="font-size: 18px;">{{ $tour->tour_name ?? 'Card Title' }}</h5>
                                                 <p class="card-text text-muted" style="font-size: 16px;">
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus ipsam consequatur suscipit optio inventore? 
+                                                    {{ $tour->tour_detail ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit.' }}
                                                 </p>
+
+                                                {{-- <div class="highlight-section mt-3">HIGHLIGHT</div>
+                                                <div class="highlight-items mt-2">
+                                                    @if ($tour->highlights->isNotEmpty())
+                                                    @foreach ($tour->highlights->chunk(2) as $chunk)
+                                                    <div class="d-flex justify-content-between">
+                                                        @foreach ($chunk as $highlight)
+                                                        <span><i class="fa-regular fa-circle-check me-1"></i>{{ $highlight->tour_highlight_detail }}</span>
+                                                        @endforeach
+                                                        @if ($chunk->count() < 2) <span></span>
+                                                            @endif
+                                                    </div>
+                                                    @endforeach
+                                                    @else
+                                                    <div class="d-flex justify-content-between">
+                                                        <span><i class="fa-regular fa-circle-check me-1"></i>No Highlights</span>
+                                                    </div>
+                                                    @endif
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </a>
                                 </div>
-                                @endfor
+                                @endforeach
                             </div>
                         </div>
-                        @endfor
+                        @empty
+                        <!-- Show a message or a default slide when there is no data -->
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="card">
+                                        <div class="img-container w-100">
+                                            <img src="default-image.jpg" class="card-img-top" alt="Default Image">
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">No Tours Available</h5>
+                                            <p class="card-text text-muted">No tours are currently available to show. Please check back later.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforelse
                     </div>
-        
+
                     <!-- Controls -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -142,9 +186,10 @@
                     </button>
                 </div>
             </div>
+
         </div>
         <div class="btn-view-all mt-4">
-            VIEW ALL ASIA
+            <a href="{{ route('TourASIAShowAll') }}" class="text-decoration-none" style="color: #000">VIEW ALL ASIA</a>
         </div>
     </div>
 

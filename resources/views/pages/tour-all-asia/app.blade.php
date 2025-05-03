@@ -114,7 +114,7 @@
         <div class="container d-flex justify-content-center align-items-center">
             <div class="d-flex flex-column justify-content-center align-items-center text-uppercase">
                 <div class="fw-bold fs-2" style="letter-spacing: 5px;">
-                    Tour all month
+                    Tour all asia
                 </div>
             </div>
         </div>

@@ -196,7 +196,7 @@
             <div class="container d-flex justify-content-center align-items-center">
                 <div class="d-flex flex-column justify-content-center align-items-center text-uppercase">
                     <div class="fw-bold fs-2" style="letter-spacing: 5px;">
-                        Detail Tour {{ $tourdetails->tour_name ?? 'No Name' }}
+                        {{ $routeTotal->routeDetail->route->province->province_name ?? '-' }} {{ $routeTotal->routeDetail->route->route_name ?? '-' }}
                     </div>
                 </div>
             </div>
@@ -209,17 +209,21 @@
                     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                         <!-- Indicators -->
                         <div class="carousel-indicators">
-                            @foreach ($tourdetails->images->whereIn('tour_image_status', [1, 2]) as $index => $image)
-                            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{ $index }}" class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
+                            @foreach ($routeTotal->carModel->carImages as $index => $image)
+                                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{ $index }}"
+                                    class="{{ $index === 0 ? 'active' : '' }}"
+                                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
+                                    aria-label="Slide {{ $index + 1 }}"></button>
                             @endforeach
                         </div>
 
-                        <!-- Carousel Items -->
+                        <!-- Slides -->
                         <div class="carousel-inner">
-                            @foreach ($tourdetails->images->whereIn('tour_image_status', [1, 2]) as $index => $image)
-                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                                <img src="{{ asset('storage/' . $image->tour_image_files) }}" class="d-block w-100" alt="Tour Image {{ $index + 1 }}">
-                            </div>
+                            @foreach ($routeTotal->carModel->carImages as $index => $image)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <img src="{{ asset('storage/' . $image->car_images_file) }}" class="d-block w-100"
+                                        alt="Slide {{ $index + 1 }}">
+                                </div>
                             @endforeach
                         </div>
 
@@ -233,16 +237,22 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
+
                 </div>
 
                 <!-- Tab -->
                 <ul class="nav nav-tabs w-100 mt-5 border border-0" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link tab-links active" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true"><i class="fa-solid fa-file me-2"></i>Overview</button>
+                        <button class="nav-link tab-links active" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1"
+                            type="button" role="tab" aria-controls="tab1" aria-selected="true"><i
+                                class="fa-solid fa-file me-2"></i>Overview</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link tab-links" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false"><i class="fa-solid fa-file me-2"></i>Tour Details and Cost</button>
-                    </li>
+                    {{-- <li class="nav-item" role="presentation">
+                        <button class="nav-link tab-links" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button"
+                            role="tab" aria-controls="tab2" aria-selected="false"><i
+                                class="fa-solid fa-file me-2"></i>Tour Details and Cost</button>
+                    </li> --}}
+
                 </ul>
                 <div class="tab-content w-100 rounded shadow" id="myTabContent">
                     <div class="tab-pane fade show active p-3" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
@@ -250,49 +260,30 @@
                             <div>
                                 <i class="fa-solid fa-circle-info fs-4 me-2"></i><span class="fs-3">Overview</span>
                             </div>
-                            <div class="text-muted">
-                                <span class="me-5"></span>{{ $tourdetails->tour_detail }}
-                            </div>
-                            <div class="bg-detail-tour w-100 p-4 mt-3">
-                                <h5><i class="fa-solid fa-star me-2"></i>Highlight</h5>
-                                <ul class="list-unstyled mt-3" style="padding-left: 1.5rem;">
-                                    @foreach ($tourdetails->highlights as $highlight)
-                                        <li class="mb-2">
-                                            <i class="fa-solid fa-star me-2"></i>
-                                            {{ $highlight->tour_highlight_detail }}
-                                        </li>
-                                    @endforeach
 
-                                    @if ($tourdetails->highlights->isEmpty())
-                                        <li class="mb-2">
-                                            <i class="fa-solid fa-star me-2"></i>
-                                            No Highlights Available
-                                        </li>
-                                    @endif
-                                </ul>
+                            <div class="text-muted mt-3">
+                                <h3 class="me-5" style="color: rgb(249, 115, 22);">{{ $routeTotal->carModel->carBrand->car_brand_name ?? 'No Brand' }} {{ $routeTotal->carModel->car_model_name ?? 'No Model' }}</h3>
+                            </div>
+
+                            <div class="mt-3">
+                                COST : <span class="text-success">{{$routeTotal->data_price}}</span> THB
+                            </div>
+
+                            <div class="text-muted mt-3" style="font-size: 18px;">
+                                ROUTE MAIN : {{ $routeTotal->routeDetail->route->province->province_name ?? '-' }}  {{ $routeTotal->routeDetail->route->route_name ?? '-' }} <br>
+                                DETAILS : {{ $routeTotal->routeDetail->route_detail_name ?? '-' }}
                             </div>
 
                         </div>
                     </div>
                     <div class="tab-pane fade p-3" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
                         <div class="d-flex flex-column justify-content-center align-items-start">
-                            <div class="w-100">
-                                <i class="fa-solid fa-file-lines fs-4 me-2"></i><span class="fs-3">Tour Details and Cost</span>
-                                <div>
-                                    @if ($tourdetails->pdfs->isNotEmpty())
-                                    @foreach ($tourdetails->pdfs as $pdf)
-                                    <iframe src="{{ asset('storage/' . $pdf->tour_pdf_file) . '#zoom=90' }}" width="100%" height="600px" class="mt-3">
-                                        Your browser does not support PDFs.
-                                    </iframe>
-
-                                    @endforeach
-                                    @else
-                                    <p>No PDFs available for this tour.</p>
-                                    @endif
-                                </div>
+                            <div>
+                                <i class="fa-solid fa-file-lines fs-4 me-2"></i><span class="fs-3">Tour Details and
+                                    Cost</span>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>

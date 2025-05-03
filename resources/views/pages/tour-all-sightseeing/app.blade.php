@@ -127,35 +127,54 @@
                     </div>
                 </form>
             </div>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
-                @for ($i = 1; $i <= 8; $i++)
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 col-md-12">
+                @foreach ($toursections as $tour)
                 <div class="col">
-                    <a href="#" class="text-decoration-none text-dark">
-                        <div class="card ">
-                            <img src="{{ asset("images/card{$i}.jpg") }}" class="card-img-top" alt="Card {{ $i }}">
-                            <div class="card-body">
-                                <div class="card-title " style="font-size: 18px;">Card Title {{ $i }}</div>
-                                <div class="card-text text-muted" style="font-size: 16px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus ipsam consequatur suscipit optio inventore? {{ $i }}.</div>
-                                <div class="highlight-section mt-3">
-                                    HIGHLIGHT
-                                </div>
-                                <div class="highlight-items mt-2">
-                                    <div class="d-flex justify-content-between">
-                                        <span><i class="fa-regular fa-circle-check me-1"></i>Item1</span>
-                                        <span><i class="fa-regular fa-circle-check me-1"></i>Item2</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span><i class="fa-regular fa-circle-check me-1"></i>Item3</span>
-                                        <span><i class="fa-regular fa-circle-check me-1"></i>Item4</span>
+                    <a href="{{ route('TourSightSeeingDetails', $tour->id) }}" class="text-decoration-none text-dark">
+                        <div class="card h-100">
+                            <img src="{{ $tour->images->isNotEmpty()
+                                        ? asset('storage/' . $tour->images->first()->tour_image_files)
+                                        : asset('images/default.jpg') }}"
+                                class="card-img-top"
+                                alt="{{ $tour->tour_name ?? 'Tour Image' }}"
+                                style="object-fit: cover; height: 200px;">
+
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title mb-2" style="font-size: 18px;">
+                                    {{ $tour->tour_name ?? 'Card Title' }}
+                                </h5>
+
+                                <p class="card-text text-muted mb-3" style="font-size: 16px;">
+                                    {{ Str::limit($tour->tour_detail, 100) ?? 'Lorem ipsum dolor sit amet.' }}
+                                </p>
+
+                                <div class="mt-auto">
+                                    <div class="highlight-section fw-bold text-primary">HIGHLIGHT</div>
+                                    <div class="highlight-items mt-2">
+                                        @if ($tour->highlights->isNotEmpty())
+                                        @foreach ($tour->highlights->chunk(2) as $chunk)
+                                        <div class="d-flex justify-content-between">
+                                            @foreach ($chunk as $highlight)
+                                            <span><i class="fa-regular fa-circle-check me-1"></i>{{ $highlight->tour_highlight_detail }}</span>
+                                            @endforeach
+                                            @if ($chunk->count() < 2) <span></span>
+                                                @endif
+                                        </div>
+                                        @endforeach
+                                        @else
+                                        <div class="d-flex justify-content-between">
+                                            <span><i class="fa-regular fa-circle-check me-1"></i>No Highlights</span>
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    
                 </div>
-                @endfor
+                @endforeach
             </div>
+
         </div>
         <div class="bg-page7 d-flex w-100 py-4 ">
             <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-center w-100 gap-3">
