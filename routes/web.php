@@ -11,6 +11,7 @@ use App\Http\Controllers\contact\ContactController;
 use App\Http\Controllers\customize\CustomizeController;
 use App\Http\Controllers\transfer\TransferController;
 use App\Http\Controllers\tour\TourController;
+use App\Http\Controllers\LineMessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,9 @@ Route::get('/tour-all', [TourController::class, 'TourAll'])->name('TourAll');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('showLoginForm');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+//line messger
+Route::post('/send-line', [LineMessageController::class, 'send'])->name('line.send');
 
 Route::middleware(['check.loggedin'])->group(function () {
     //TourSectionManagement
