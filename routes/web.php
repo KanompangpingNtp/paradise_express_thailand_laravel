@@ -53,6 +53,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //line messger
 Route::post('/send-line', [LineMessageController::class, 'send'])->name('line.send');
+Route::post('/sendCustomize-line', [LineMessageController::class, 'sendCustomize'])->name('line.sendCustomize');
 
 Route::middleware(['check.loggedin'])->group(function () {
     //TourSectionManagement

@@ -55,28 +55,37 @@
             <!-- Logo -->
             <a class="navbar-brand" href="{{route('HomeIndex')}}"><img src="{{ asset('images/logo_edited.avif') }}" alt="logo" width="50"></a>
 
-            <!-- Navbar Links -->
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'TourAll' ? 'active' : '' }}" href="{{route('TourAll')}}">Tour Packages</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sightseeing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'TransferPage' ? 'active' : '' }}" href="{{ route('TransferPage') }}">Transfer</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'CustomizePage' ? 'active' : '' }}" href="{{ route('CustomizePage') }}">Customized</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'ContactPage' ? 'active' : '' }}" href="{{ route('ContactPage') }}">Contact</a>
-                </li>
-            </ul>
+            <!-- Hamburger Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::currentRouteName() == 'TourAll' ? 'active' : '' }}" href="{{route('TourAll')}}">Tour Packages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sightseeing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::currentRouteName() == 'TransferPage' ? 'active' : '' }}" href="{{ route('TransferPage') }}">Transfer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::currentRouteName() == 'CustomizePage' ? 'active' : '' }}" href="{{ route('CustomizePage') }}">Customized</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::currentRouteName() == 'ContactPage' ? 'active' : '' }}" href="{{ route('ContactPage') }}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('showLoginForm')}}" class="d-block d-lg-none nav-link"><i class="fa-solid fa-user me-1"></i>Login</a>
+                    </li>
+                </ul>
+            </div>
 
             <!-- Login Button -->
-            <a href="{{route('showLoginForm')}}" class="btn btn-outline-dark"><i class="fa-solid fa-user me-1"></i>Login</a>
+            <a href="{{route('showLoginForm')}}" class="d-none d-lg-block btn btn-outline-dark"><i class="fa-solid fa-user me-1"></i>Login</a>
         </div>
     </nav>
 
@@ -88,20 +97,6 @@
     <!-- Bootstrap JS (จาก CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        // Navbar hide/show on scroll
-        let prevScrollpos = window.pageYOffset;
-        window.onscroll = function() {
-            let currentScrollPos = window.pageYOffset;
-            if (prevScrollpos > currentScrollPos) {
-                document.getElementById("navbar").style.top = "0";
-            } else {
-                document.getElementById("navbar").style.top = "-80px";
-            }
-            prevScrollpos = currentScrollPos;
-        }
-
-    </script>
 </body>
 
 </html>

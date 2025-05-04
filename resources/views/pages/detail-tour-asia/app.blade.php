@@ -312,19 +312,24 @@
             <div
                 class="col-12 col-lg-4 d-flex flex-column justify-content-center align-items-center border-bottom p-4 rounded shadow ">
                 @if (session('line_status'))
-                    <script>
-                        Swal.fire({
-                            icon: '{{ session('line_status.type') }}',
-                            title: '{{ session('line_status.message') }}',
-                            text: '{{ session('line_status.text') }}',
-                            confirmButtonText: 'ตกลง',
-                        }).then(() => {
-                            // ซ่อนฟอร์มหลังแสดงข้อความ (ถ้าต้องการ)
-                            document.getElementById('tourForm').style.display = 'none';
-                            document.getElementById('formSuccessMessage').classList.remove('d-none');
-                        });
-                    </script>
-                @endif
+    <script>
+        Swal.fire({
+            icon: '{{ session('line_status.type') }}',
+            title: '{{ session('line_status.message') }}',
+            text: '{{ session('line_status.text') }}',
+            confirmButtonText: 'ตกลง',
+        }).then(() => {
+            @if (session('line_status.type') === 'success')
+                // ถ้าสำเร็จ ให้ซ่อนฟอร์มและแสดงข้อความ
+                document.getElementById('tourForm').style.display = 'none';
+                document.getElementById('formSuccessMessage').classList.remove('d-none');
+            @else
+                // ถ้าเกิด error ให้แสดง div ข้อความ error
+                document.getElementById('formErrorMessage').classList.remove('d-none');
+            @endif
+        });
+    </script>
+@endif
 
                 <form id="tourForm" method="POST" action="{{ route('line.send') }}">
                     @csrf
@@ -386,6 +391,11 @@
                     <strong>Thank you for your tour reservation!</strong>
                     <span>We’ve received your booking details and will get in touch with you shortly.</span>
                     <a class="btn btn-success mt-2" href="{{ route('HomeIndex') }}">Return to Homepage</a>
+                </div>
+
+                <div id="formErrorMessage" class="alert alert-danger d-none">
+                    <strong>Booking failed.</strong>
+                    <span>Please try again later or contact support.</span>
                 </div>
 
             </div>

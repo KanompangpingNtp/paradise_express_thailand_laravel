@@ -196,7 +196,8 @@
             <div class="container d-flex justify-content-center align-items-center">
                 <div class="d-flex flex-column justify-content-center align-items-center text-uppercase">
                     <div class="fw-bold fs-2" style="letter-spacing: 5px;">
-                         {{ $routeTotal->routeDetail->route->province->province_name ?? '-' }} {{ $routeTotal->routeDetail->route->route_name ?? '-' }}
+                        {{ $routeTotal->routeDetail->route->province->province_name ?? '-' }}
+                        {{ $routeTotal->routeDetail->route->route_name ?? '-' }}
                     </div>
                 </div>
             </div>
@@ -210,8 +211,8 @@
                         <!-- Indicators -->
                         <div class="carousel-indicators">
                             @foreach ($routeTotal->carModel->carImages as $index => $image)
-                                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{ $index }}"
-                                    class="{{ $index === 0 ? 'active' : '' }}"
+                                <button type="button" data-bs-target="#carouselExample"
+                                    data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}"
                                     aria-current="{{ $index === 0 ? 'true' : 'false' }}"
                                     aria-label="Slide {{ $index + 1 }}"></button>
                             @endforeach
@@ -228,11 +229,13 @@
                         </div>
 
                         <!-- Controls -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
@@ -262,15 +265,18 @@
                             </div>
 
                             <div class="text-muted mt-3">
-                                <h3 class="me-5" style="color: rgb(249, 115, 22);">{{ $routeTotal->carModel->carBrand->car_brand_name ?? 'No Brand' }} {{ $routeTotal->carModel->car_model_name ?? 'No Model' }}</h3>
+                                <h3 class="me-5" style="color: rgb(249, 115, 22);">
+                                    {{ $routeTotal->carModel->carBrand->car_brand_name ?? 'No Brand' }}
+                                    {{ $routeTotal->carModel->car_model_name ?? 'No Model' }}</h3>
                             </div>
 
                             <div class="mt-3">
-                                COST : <span class="text-success">{{$routeTotal->data_price}}</span> THB
+                                COST : <span class="text-success">{{ $routeTotal->data_price }}</span> THB
                             </div>
 
                             <div class="text-muted mt-3" style="font-size: 18px;">
-                                ROUTE MAIN : {{ $routeTotal->routeDetail->route->province->province_name ?? '-' }}  {{ $routeTotal->routeDetail->route->route_name ?? '-' }} <br>
+                                ROUTE MAIN : {{ $routeTotal->routeDetail->route->province->province_name ?? '-' }}
+                                {{ $routeTotal->routeDetail->route->route_name ?? '-' }} <br>
                                 DETAILS : {{ $routeTotal->routeDetail->route_detail_name ?? '-' }}
                             </div>
 
@@ -299,9 +305,14 @@
                             text: '{{ session('line_status.text') }}',
                             confirmButtonText: 'ตกลง',
                         }).then(() => {
-                            // ซ่อนฟอร์มหลังแสดงข้อความ (ถ้าต้องการ)
-                            document.getElementById('tourForm').style.display = 'none';
-                            document.getElementById('formSuccessMessage').classList.remove('d-none');
+                            @if (session('line_status.type') === 'success')
+                                // ถ้าสำเร็จ ให้ซ่อนฟอร์มและแสดงข้อความ
+                                document.getElementById('tourForm').style.display = 'none';
+                                document.getElementById('formSuccessMessage').classList.remove('d-none');
+                            @else
+                                // ถ้าเกิด error ให้แสดง div ข้อความ error
+                                document.getElementById('formErrorMessage').classList.remove('d-none');
+                            @endif
                         });
                     </script>
                 @endif
@@ -310,9 +321,11 @@
                     @csrf
                     <div class="mb-3 w-100">
                         <div class="fw-bold fs-3 border-bottom text-uppercase mb-2" style="letter-spacing: 1px;">
-                            {{ $routeTotal->routeDetail->route->province->province_name ?? '-' }} {{ $routeTotal->routeDetail->route->route_name ?? '-' }}
+                            {{ $routeTotal->routeDetail->route->province->province_name ?? '-' }}
+                            {{ $routeTotal->routeDetail->route->route_name ?? '-' }}
                         </div>
-                        <input type="hidden" name="tour_name" value="{{ $routeTotal->routeDetail->route->province->province_name ?? '-' }} {{ $routeTotal->routeDetail->route->route_name ?? '-' }}
+                        <input type="hidden" name="tour_name"
+                            value="{{ $routeTotal->routeDetail->route->province->province_name ?? '-' }} {{ $routeTotal->routeDetail->route->route_name ?? '-' }}
 ">
 
                         <!-- Tour Date -->
@@ -369,6 +382,10 @@
                     <a class="btn btn-success mt-2" href="{{ route('HomeIndex') }}">Return to Homepage</a>
                 </div>
 
+                <div id="formErrorMessage" class="alert alert-danger d-none">
+                    <strong>Booking failed.</strong>
+                    <span>Please try again later or contact support.</span>
+                </div>
             </div>
         </div>
         <div class="bg-page7 d-flex w-100 py-4 ">
