@@ -89,6 +89,13 @@
         overflow: hidden;
     }
 
+    .card-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
 </style>
 
 <main class="bg-page5 d-flex">
@@ -99,7 +106,7 @@
         <div class="container d-flex align-items-center justify-content-center gap-4 flex-grow-1">
             <div class="d-flex flex-column align-items-center justify-content-center my-4">
                 @php
-                $chunks = $toursections_asia->chunk(5); // แบ่งข้อมูลเป็นกลุ่มละ 3 ชิ้น (1 สไลด์มี 3 การ์ด)
+                $chunks = $toursections_asia->chunk(5); // แบ่งข้อมูลเป็นกลุ่มละ 5 ชิ้น (1 สไลด์มี 5 การ์ด)
                 @endphp
 
                 <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -118,18 +125,16 @@
                         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                             <div class="row">
                                 @foreach ($group as $tour)
-                                <div class="col-4" id="card-carousel">
+                                <div class="col-lg-4 col-md-6 col-sm-12 mb-3" id="card-carousel">
                                     <a href="{{ route('TourASIADetails', $tour->id) }}" class="text-decoration-none text-dark">
                                         <div class="card">
                                             <div class="img-container w-100">
-                                                <img src="{{ $tour->images->isNotEmpty()
-                                ? asset('storage/' . $tour->images->first()->tour_image_files)
-                                : asset('images/default.jpg') }}" class="card-img-top" alt="{{ $tour->tour_name ?? 'Tour Image' }}">
+                                                <img src="{{ $tour->images->isNotEmpty() ? asset('storage/' . $tour->images->first()->tour_image_files) : asset('images/default.jpg') }}" class="card-img-top" alt="{{ $tour->tour_name ?? 'Tour Image' }}">
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="card-title" style="font-size: 18px;">{{ $tour->tour_name ?? 'Card Title' }}</h5>
                                                 <p class="card-text text-muted" style="font-size: 16px;">
-                                                    {{ $tour->tour_detail ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit.' }}
+                                                    {{ Str::limit($tour->tour_detail ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit.', 100) }}
                                                 </p>
                                             </div>
                                         </div>
@@ -152,11 +157,10 @@
                     </button>
                 </div>
             </div>
-
         </div>
+
         <div class="btn-view-all mt-4">
             <a href="{{ route('TourASIAShowAll') }}" class="text-decoration-none" style="color: #000">VIEW ALL ASIA</a>
         </div>
     </div>
-
 </main>
