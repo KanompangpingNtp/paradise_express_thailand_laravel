@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Paradise express')
+@section('title', 'Paradise Express')
 @section('content')
     <style>
         .section-3 {

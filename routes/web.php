@@ -23,9 +23,9 @@ use App\Http\Controllers\tour\TourController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('pages.home.app');
-// });
+Route::get('/transfer-car', function () {
+    return view('pages.detail-transfer-car.app');
+});
 
 Route::get('/', [HomeController::class, 'HomeIndex'])->name('HomeIndex');
 Route::get('/tour-month/showall', [HomeController::class, 'TourMonthShowAll'])->name('TourMonthShowAll');

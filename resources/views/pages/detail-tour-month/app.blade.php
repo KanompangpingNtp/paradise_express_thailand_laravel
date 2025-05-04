@@ -300,52 +300,54 @@
 
         <!-- Input -->
         <div class="col-12 col-lg-4 d-flex flex-column justify-content-center align-items-center border-bottom p-4 rounded shadow ">
-            <div class="mb-3 w-100">
-                <div class="fw-bold fs-4 border-bottom text-uppercase mb-2" style="letter-spacing: 1px;">
-                    name tour
-                </div>
-                <div class="d-flex justify-content-between align-items-center gap-2">
-                    <!-- Tour Date -->
-                    <div class="w-50">
-                        <label for="inputText" class="form-label"><i class="fa-regular fa-calendar-days me-2"></i>Tour
-                            Date</label>
-                        <input type="date" class="form-control " id="inputText" placeholder=" Number of Adults">
+            <form action="#" method="POST">
+                @csrf
+                <div class="mb-3 w-100">
+                    <div class="fw-bold fs-4 border-bottom text-uppercase mb-2" style="letter-spacing: 1px;">
+                        Name Tour
                     </div>
 
-                    <!-- Dropdown -->
-                    <div class="dropdown dropdown-menu-end d-flex flex-column justify-content-center align-items-end w-50">
-                        <label for="inputText" class="form-label my-1 mx-1">Number People</label>
-                        <button class="btn btn-dark dropdown-toggle w-100" type="button" id="dropdownToggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-users"></i> X 0
-                        </button>
-                        <ul class="dropdown-menu p-3" style="min-width: 250px;">
-                            <li class="mb-2">
-                                <label for="adultCount" class="form-label my-2 mx-1">Adults</label>
-                                <input type="number" class="form-control" id="adultCount" placeholder="Number of Adults" min="0">
-                            </li>
-                            <li>
-                                <label for="childCount" class="form-label my-2 mx-1">Children</label>
-                                <input type="number" class="form-control" id="childCount" placeholder="Number of Children" min="0">
-                            </li>
-                        </ul>
+                    <!-- Tour Date -->
+                    <div class="w-100 mb-2">
+                        <label class="form-label"><i class="fa-regular fa-calendar-days me-2"></i>Tour Date</label>
+                        <input type="date" class="form-control" name="tour_date" required>
                     </div>
+
+                    <!-- Number of People -->
+                    <div class="d-flex gap-2 mb-2">
+                        <div class="w-50">
+                            <label class="form-label">Adults</label>
+                            <input type="number" class="form-control" name="adults" min="0" required>
+                        </div>
+                        <div class="w-50">
+                            <label class="form-label">Children</label>
+                            <input type="number" class="form-control" name="children" min="0" required>
+                        </div>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="w-100 mb-2">
+                        <label class="form-label"><i class="fa-solid fa-user me-2"></i>Full Name</label>
+                        <input type="text" class="form-control" name="fullname" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="w-100 mb-2">
+                        <label class="form-label"><i class="fa-solid fa-envelope me-2"></i>Email</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="w-100 mb-2">
+                        <label class="form-label"><i class="fa-solid fa-phone me-2"></i>Phone Number</label>
+                        <input type="text" class="form-control" name="phone" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark w-100">
+                        <i class="fa-regular fa-address-book me-2"></i>Reserve Now
+                    </button>
                 </div>
-                <div class="w-100">
-                    <label for="inputText" class="form-label my-2 mx-1"><i class="fa-solid fa-user me-2"></i>Full
-                        Name</label>
-                    <input type="text" class="form-control" id="fullname" placeholder="Full Name">
-                </div>
-                <div class="w-100">
-                    <label for="inputText" class="form-label my-2 mx-1"><i class="fa-solid fa-envelope me-2"></i>Email</label>
-                    <input type="text" class="form-control" id="email" placeholder="Email">
-                </div>
-                <div class="w-100">
-                    <label for="inputText" class="form-label my-2 mx-1"><i class="fa-solid fa-phone me-2"></i>Phone
-                        Number</label>
-                    <input type="text" class="form-control" id="phonnumber" placeholder="Phone Number">
-                </div>
-            </div>
-            <button class="btn btn-dark w-100"><i class="fa-regular fa-address-book me-2"></i>Reserve Now</button>
+            </form>
         </div>
     </div>
     <div class="bg-page7 d-flex w-100 py-4 ">
