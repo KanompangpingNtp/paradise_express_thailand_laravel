@@ -30,13 +30,29 @@ class RouteManagementController extends Controller
         return redirect()->back()->with('success', 'Province created successfully.');
     }
 
+    public function deleteProvince($id)
+    {
+        $province = Province::findOrFail($id);
+
+        // ลบ Routes และ RouteDetails ที่เกี่ยวข้องก่อน
+        $routes = $province->routes;
+        foreach ($routes as $route) {
+            RouteDetail::where('route_id', $route->id)->delete();
+            $route->delete();
+        }
+
+        $province->delete();
+
+        return redirect()->back()->with('success', 'Province and related data deleted successfully.');
+    }
+
     public function RoutesMainManagement($id)
     {
         $province = Province::findOrFail($id);
 
         $routes = Route::where('province_id', $id)->get();
 
-        return view('admin.transfer_management.routes_main_management.routes_main_management', compact('province','routes'));
+        return view('admin.transfer_management.routes_main_management.routes_main_management', compact('province', 'routes'));
     }
 
     public function CreateNewRoutes(Request $request, $provinceId)
@@ -53,13 +69,25 @@ class RouteManagementController extends Controller
         return redirect()->back()->with('success', 'Route created successfully.');
     }
 
+    public function deleteRoute($id)
+    {
+        $route = Route::findOrFail($id);
+
+        // ลบ RouteDetails ที่เกี่ยวข้อง
+        RouteDetail::where('route_id', $route->id)->delete();
+
+        $route->delete();
+
+        return redirect()->back()->with('success', 'Route and its details deleted successfully.');
+    }
+
     public function RoutesDetails($id)
     {
         $route = Route::findOrFail($id);
 
         $routes_details = RouteDetail::where('route_id', $id)->get();
 
-        return view('admin.transfer_management.route_details.route_details', compact('route','routes_details'));
+        return view('admin.transfer_management.route_details.route_details', compact('route', 'routes_details'));
     }
 
     public function CreateNewRoutesDetails(Request $request, $routeId)
@@ -74,5 +102,13 @@ class RouteManagementController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'RoutesDetails created successfully.');
+    }
+
+    public function deleteRouteDetail($id)
+    {
+        $routeDetail = RouteDetail::findOrFail($id);
+        $routeDetail->delete();
+
+        return redirect()->back()->with('success', 'Route detail deleted successfully.');
     }
 }

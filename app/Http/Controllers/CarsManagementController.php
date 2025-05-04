@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CarBrand;
 use App\Models\CarModel;
 use App\Models\CarImage;
+use Illuminate\Support\Facades\Storage;
 
 class CarsManagementController extends Controller
 {
@@ -30,13 +31,32 @@ class CarsManagementController extends Controller
         return redirect()->back()->with('success', 'CarBrands created successfully.');
     }
 
+    public function deleteCarBrand($id)
+    {
+        $carbrand = CarBrand::findOrFail($id);
+
+        foreach ($carbrand->carModels as $model) {
+            // ลบภาพที่เกี่ยวข้องกับโมเดล
+            foreach ($model->carImages as $image) {
+                Storage::disk('public')->delete($image->car_images_file);
+                $image->delete();
+            }
+            $model->delete();
+        }
+
+        $carbrand->delete();
+
+        return redirect()->back()->with('success', 'CarBrand and related models/images deleted successfully.');
+    }
+
+
     public function CarModelManagement($id)
     {
         $carbrand = CarBrand::findOrFail($id);
 
         $carmodel = CarModel::where('car_brand_id', $id)->get();
 
-        return view('admin.transfer_management.car_model_management.car_model_management', compact('carbrand','carmodel'));
+        return view('admin.transfer_management.car_model_management.car_model_management', compact('carbrand', 'carmodel'));
     }
 
     public function CreateNewCarModel(Request $request, $carmodelId)
@@ -68,5 +88,19 @@ class CarsManagementController extends Controller
         }
 
         return redirect()->back()->with('success', 'CarModel created successfully.');
+    }
+
+    public function deleteCarModel($id)
+    {
+        $carmodel = CarModel::findOrFail($id);
+
+        foreach ($carmodel->carImages as $image) {
+            Storage::disk('public')->delete($image->car_images_file);
+            $image->delete();
+        }
+
+        $carmodel->delete();
+
+        return redirect()->back()->with('success', 'CarModel and related images deleted successfully.');
     }
 }

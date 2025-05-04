@@ -53,7 +53,12 @@
             </td>
             <td>{{ $province->created_at }}</td>
             <td>{{ $province->updated_at }}</td>
-            <td>
+            <td class="text-center">
+                <form action="{{ route('deleteProvince', $province->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                </form>
             </td>
         </tr>
         @endforeach

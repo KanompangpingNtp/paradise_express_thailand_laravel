@@ -123,11 +123,15 @@
             </td>
             <td class="text-center">
                 @foreach ($tour->pdfs as $pdf)
-                <a href="{{ asset('storage/' . $pdf->tour_pdf_file) }}" target="_blank" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i></a>
+                <a href="{{ asset('storage/' . $pdf->tour_pdf_file) }}" target="_blank" class="text-danger fs-3"><i class="bi bi-file-earmark-pdf"></i></a>
                 @endforeach
             </td>
-            <td>
-
+            <td class="text-center">
+                <form action="{{ route('DeleteTour', $tour->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                </form>
             </td>
         </tr>
         @endforeach

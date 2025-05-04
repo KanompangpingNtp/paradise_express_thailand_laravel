@@ -8,6 +8,7 @@ use App\Models\Tour;
 use App\Models\TourHighlight;
 use App\Models\TourImage;
 use App\Models\TourPdf;
+use Illuminate\Support\Facades\Storage;
 
 class TourManagementController extends Controller
 {
@@ -30,6 +31,32 @@ class TourManagementController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'TourSection created successfully.');
+    }
+
+    public function DeleteTourSection($id)
+    {
+        $tourSection = TourSection::findOrFail($id);
+
+        foreach ($tourSection->tours as $tour) {
+
+            $tour->highlights()->delete();
+
+            foreach ($tour->pdfs as $pdf) {
+                Storage::disk('public')->delete($pdf->tour_pdf_file);
+                $pdf->delete();
+            }
+
+            foreach ($tour->images as $image) {
+                Storage::disk('public')->delete($image->tour_image_files);
+                $image->delete();
+            }
+
+            $tour->delete();
+        }
+
+        $tourSection->delete();
+
+        return redirect()->back()->with('success', 'TourSection deleted successfully.');
     }
 
     public function TourlistSection($toursectionId)
@@ -113,4 +140,28 @@ class TourManagementController extends Controller
         return redirect()->back()->with('success', 'Tour created successfully.');
     }
 
+    public function DeleteTour($id)
+    {
+        $tour = Tour::findOrFail($id);
+
+        // ลบ Highlights
+        $tour->highlights()->delete();
+
+        // ลบ PDFs และไฟล์
+        foreach ($tour->pdfs as $pdf) {
+            Storage::disk('public')->delete($pdf->tour_pdf_file);
+            $pdf->delete();
+        }
+
+        // ลบ Images และไฟล์
+        foreach ($tour->images as $image) {
+            Storage::disk('public')->delete($image->tour_image_files);
+            $image->delete();
+        }
+
+        // ลบ Tour หลัก
+        $tour->delete();
+
+        return redirect()->back()->with('success', 'Tour deleted successfully.');
+    }
 }

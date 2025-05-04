@@ -63,8 +63,12 @@
                     <img src="{{ asset('storage/'.$image->car_images_file) }}" width="100" alt="Car Image">
                 @endforeach
             </td>
-            <td>
-
+            <td class="text-center">
+                <form action="{{ route('deleteCarModel', $model->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                </form>
             </td>
         </tr>
         @endforeach

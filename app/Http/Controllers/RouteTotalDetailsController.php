@@ -9,11 +9,6 @@ use App\Models\RouteTotal;
 
 class RouteTotalDetailsController extends Controller
 {
-    //
-    // public function RouteTotalDetails()
-    // {
-    //     return view('admin.transfer_management.connect_line.connect_line');
-    // }
     public function RouteTotalDetails()
     {
         $provinces = Province::with(['routes.routeDetails'])->get();
@@ -43,5 +38,13 @@ class RouteTotalDetailsController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Route Total created successfully.');
+    }
+
+    public function deleteRouteTotal($id)
+    {
+        $routeTotal = RouteTotal::findOrFail($id);
+        $routeTotal->delete();
+
+        return redirect()->back()->with('success', 'Route Total deleted successfully.');
     }
 }

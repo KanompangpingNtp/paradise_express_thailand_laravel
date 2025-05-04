@@ -188,9 +188,12 @@
             <td>{{ $routeTotal->carModel->carBrand->car_brand_name ?? '-' }}</td>
             <td>{{ $routeTotal->carModel->car_model_name ?? '-' }}</td>
             <td>{{ number_format($routeTotal->data_price, 2) }}</td>
-            <td>
-                {{-- <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="#" class="btn btn-danger btn-sm">Delete</a> --}}
+            <td class="text-center">
+                <form action="{{ route('deleteRouteTotal', $routeTotal->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                </form>
             </td>
         </tr>
         @endforeach

@@ -44,6 +44,7 @@
     }
 
     @media (max-width: 768px) {
+
         .carousel-control-prev,
         .carousel-control-next {
             width: 40px;
@@ -87,6 +88,7 @@
         height: 300px;
         overflow: hidden;
     }
+
 </style>
 
 <main class="bg-page5 d-flex">
@@ -112,7 +114,7 @@
 
                     <!-- Carousel Items -->
                     <div class="carousel-inner py-3">
-                        @forelse ($chunks as $index => $group)
+                        @foreach ($chunks as $index => $group)
                         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                             <div class="row">
                                 @foreach ($group as $tour)
@@ -121,33 +123,14 @@
                                         <div class="card">
                                             <div class="img-container w-100">
                                                 <img src="{{ $tour->images->isNotEmpty()
-                                                    ? asset('storage/' . $tour->images->first()->tour_image_files)
-                                                    : asset('images/default.jpg') }}" class="card-img-top" alt="{{ $tour->tour_name ?? 'Tour Image' }}">
+                                ? asset('storage/' . $tour->images->first()->tour_image_files)
+                                : asset('images/default.jpg') }}" class="card-img-top" alt="{{ $tour->tour_name ?? 'Tour Image' }}">
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="card-title" style="font-size: 18px;">{{ $tour->tour_name ?? 'Card Title' }}</h5>
                                                 <p class="card-text text-muted" style="font-size: 16px;">
                                                     {{ $tour->tour_detail ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit.' }}
                                                 </p>
-
-                                                {{-- <div class="highlight-section mt-3">HIGHLIGHT</div>
-                                                <div class="highlight-items mt-2">
-                                                    @if ($tour->highlights->isNotEmpty())
-                                                    @foreach ($tour->highlights->chunk(2) as $chunk)
-                                                    <div class="d-flex justify-content-between">
-                                                        @foreach ($chunk as $highlight)
-                                                        <span><i class="fa-regular fa-circle-check me-1"></i>{{ $highlight->tour_highlight_detail }}</span>
-                                                        @endforeach
-                                                        @if ($chunk->count() < 2) <span></span>
-                                                            @endif
-                                                    </div>
-                                                    @endforeach
-                                                    @else
-                                                    <div class="d-flex justify-content-between">
-                                                        <span><i class="fa-regular fa-circle-check me-1"></i>No Highlights</span>
-                                                    </div>
-                                                    @endif
-                                                </div> --}}
                                             </div>
                                         </div>
                                     </a>
@@ -155,24 +138,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        @empty
-                        <!-- Show a message or a default slide when there is no data -->
-                        <div class="carousel-item active">
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="card">
-                                        <div class="img-container w-100">
-                                            <img src="default-image.jpg" class="card-img-top" alt="Default Image">
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">No Tours Available</h5>
-                                            <p class="card-text text-muted">No tours are currently available to show. Please check back later.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforelse
+                        @endforeach
                     </div>
 
                     <!-- Controls -->
